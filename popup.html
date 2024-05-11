@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" class="bg-white rounded-sm">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/icon/logo.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chrome Extension + Vanilla + TS + Vite</title>
+</head>
+
+<body class="">
+  <div id="app" class="w-72  py-4">
+    <h1 class="font-bold text-black text-xl text-center">Youtube content blocker</h1>
+    <div class="flex justify-evenly mt-6">
+      <h1>Shorts</h1>
+      <input type="checkbox" class="toggle [--tglbg:white] toggle-error" id="shorts-content" checked />
+    </div>
+    <div class="flex justify-evenly mt-6">
+      <h1>Recommends</h1>
+      <input type="checkbox" class="toggle [--tglbg:white] toggle-error" id="recommends-content" checked />
+    </div>
+    <div class="flex justify-evenly mt-6">
+      <h1>Comments</h1>
+      <input type="checkbox" class="toggle [--tglbg:white] toggle-error" id="comments-content" checked />
+    </div>
+  </div>
+  <script type="module" src="/src/popup/index.ts"></script>
+</body>
+
+</html>
