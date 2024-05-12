@@ -20,13 +20,6 @@ async function init() {
                         return;
                     }
                 }
-                if (data.options.shorts_checked === false) {
-                    if (richShortsRenderer[2]) {
-                        console.log("stopped2")
-                        observer.disconnect();
-                        return;
-                    }
-                }
 
             }
         }
