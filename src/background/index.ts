@@ -8,7 +8,8 @@ async function init() {
                 const recommendationsEl = document.getElementsByTagName("ytd-watch-next-secondary-results-renderer")[0] as HTMLElement;
                 const shortsEl = document.getElementsByTagName("ytd-reel-shelf-renderer")[0] as HTMLElement;
                 const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
-                if (shortsEl && recommendationsEl && commentsEl) {
+                const richShortsRenderer = document.getElementsByTagName("ytd-rich-shelf-renderer")[0] as HTMLElement;
+                if (shortsEl || recommendationsEl || commentsEl || richShortsRenderer) {
                     if (data.options)
                         VisibilityChange(data.options);
                     observer.disconnect();
@@ -35,20 +36,27 @@ chrome.storage.onChanged.addListener(
 );
 function VisibilityChange(changes: any) {
     const recommendationsEl = document.getElementsByTagName("ytd-watch-next-secondary-results-renderer")[0] as HTMLElement;
-    const shortsEl = document.getElementsByTagName("ytd-reel-shelf-renderer")[0] as HTMLElement;
+    const reel_shorts_renderer = document.getElementsByTagName("ytd-reel-shelf-renderer") as HTMLCollectionOf<HTMLElement>;
+    const rich_shorts_renderer = document.getElementsByTagName("ytd-rich-shelf-renderer") as HTMLCollectionOf<HTMLElement>;
+    const shorts = Array.from(reel_shorts_renderer).concat(Array.from(rich_shorts_renderer));
     const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
-
+    console.log(shorts)
     if (Boolean(changes.recommendations_checked) === false) {
         recommendationsEl.style.display = "none";
     }
     else {
         recommendationsEl.style.display = "flex";
     }
-    if (Boolean(changes.recommendations_checked) === false) {
-        shortsEl.style.display = "none";
+
+    if (Boolean(changes.shorts_checked) === false) {
+        shorts.forEach((shorts_obj) => {
+            shorts_obj.style.display = "none"
+        });
     }
     else {
-        shortsEl.style.display = "flex";
+        Array.from(shorts).forEach((shorts_obj) => {
+            shorts_obj.style.display = "flex"
+        });
     }
 
     if (Boolean(changes.comments_checked) === false) {
