@@ -40,28 +40,34 @@ function VisibilityChange(changes: any) {
     const shorts = Array.from(reel_shorts_renderer).concat(Array.from(rich_shorts_renderer));
     const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
 
-    if (Boolean(changes.recommendations_checked) === false) {
-        recommendationsEl.style.display = "none";
-    }
-    else {
-        recommendationsEl.style.display = "flex";
-    }
-
-    if (Boolean(changes.shorts_checked) === false) {
-        shorts.forEach((shorts_obj) => {
-            shorts_obj.style.display = "none"
-        });
-    }
-    else {
-        Array.from(shorts).forEach((shorts_obj) => {
-            shorts_obj.style.display = "flex"
-        });
+    if (recommendationsEl) {
+        if (Boolean(changes.recommendations_checked) === false) {
+            recommendationsEl.style.display = "none";
+        }
+        else {
+            recommendationsEl.style.display = "flex";
+        }
     }
 
-    if (Boolean(changes.comments_checked) === false) {
-        commentsEl.style.display = "none";
+    if (shorts.length > 0) {
+        if (Boolean(changes.shorts_checked) === false) {
+            shorts.forEach((shorts_obj) => {
+                shorts_obj.style.display = "none"
+            });
+        } else {
+            Array.from(shorts).forEach((shorts_obj) => {
+                shorts_obj.style.display = "flex"
+            });
+        }
     }
-    else {
-        commentsEl.style.display = "flex";
+
+
+    if (commentsEl) {
+        if (Boolean(changes.comments_checked) === false) {
+            commentsEl.style.display = "none";
+        }
+        else {
+            commentsEl.style.display = "flex";
+        }
     }
 }
