@@ -20,7 +20,6 @@ export default defineManifest({
     default_icon: 'img/logo-48.png',
   },
   permissions: [
-    "activeTab",
     "storage",
     "scripting",
   ],
@@ -29,7 +28,7 @@ export default defineManifest({
       js: ["src/background/index.ts"],
       matches: [
         "https://www.youtube.com/*",
-      ]
+      ],
     }
   ],
   web_accessible_resources: [
