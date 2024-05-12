@@ -29,7 +29,6 @@ init();
 chrome.storage.onChanged.addListener(
     function (changes, area) {
         if (area == 'sync' && changes.options?.newValue) {
-            console.log(changes.options);
             VisibilityChange(changes.options.newValue)
         }
     }
@@ -40,7 +39,7 @@ function VisibilityChange(changes: any) {
     const rich_shorts_renderer = document.getElementsByTagName("ytd-rich-shelf-renderer") as HTMLCollectionOf<HTMLElement>;
     const shorts = Array.from(reel_shorts_renderer).concat(Array.from(rich_shorts_renderer));
     const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
-    console.log(shorts)
+
     if (Boolean(changes.recommendations_checked) === false) {
         recommendationsEl.style.display = "none";
     }
