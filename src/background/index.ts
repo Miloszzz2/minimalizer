@@ -1,20 +1,33 @@
 async function init() {
     var targetNode = document.body;
-    const data = await chrome.storage.sync.get("options");
+
     var config = { childList: true, subtree: true };
-    var callback = function (mutationsList: any, observer: any) {
+    var callback = async function (mutationsList: any, observer: any) {
         for (var mutation of mutationsList) {
             if (mutation.type === 'childList') {
+                const data = await chrome.storage.sync.get("options");
                 const recommendationsEl = document.getElementsByTagName("ytd-watch-next-secondary-results-renderer")[0] as HTMLElement;
                 const shortsEl = document.getElementsByTagName("ytd-reel-shelf-renderer")[0] as HTMLElement;
                 const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
-                const richShortsRenderer = document.getElementsByTagName("ytd-rich-shelf-renderer")[0] as HTMLElement;
-                if (shortsEl || recommendationsEl || commentsEl || richShortsRenderer) {
+                const richShortsRenderer = document.getElementsByTagName("ytd-rich-section-renderer") as HTMLCollectionOf<HTMLElement>;
+                if (shortsEl || recommendationsEl || commentsEl || richShortsRenderer[0]) {
                     if (data.options)
                         VisibilityChange(data.options);
-                    observer.disconnect();
-                    return;
+
+                    if (data.options.shorts_checked === true) {
+                        console.log("stopped1")
+                        observer.disconnect();
+                        return;
+                    }
                 }
+                if (data.options.shorts_checked === false) {
+                    if (richShortsRenderer[2]) {
+                        console.log("stopped2")
+                        observer.disconnect();
+                        return;
+                    }
+                }
+
             }
         }
     };
@@ -36,7 +49,7 @@ chrome.storage.onChanged.addListener(
 function VisibilityChange(changes: any) {
     const recommendationsEl = document.getElementsByTagName("ytd-watch-next-secondary-results-renderer")[0] as HTMLElement;
     const reel_shorts_renderer = document.getElementsByTagName("ytd-reel-shelf-renderer") as HTMLCollectionOf<HTMLElement>;
-    const rich_shorts_renderer = document.getElementsByTagName("ytd-rich-shelf-renderer") as HTMLCollectionOf<HTMLElement>;
+    const rich_shorts_renderer = document.getElementsByTagName("ytd-rich-section-renderer") as HTMLCollectionOf<HTMLElement>;
     const shorts = Array.from(reel_shorts_renderer).concat(Array.from(rich_shorts_renderer));
     const commentsEl = document.getElementsByTagName("ytd-comments")[0] as HTMLElement;
 
