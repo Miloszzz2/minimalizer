@@ -25,8 +25,6 @@ let options: SwitchedChecked = {
 	main_checked: main_switch.checked,
 };
 
-chrome.storage.sync.set({ options });
-
 async function LoadData() {
 	const data = await chrome.storage.sync.get("options");
 	console.log(data);
@@ -35,6 +33,7 @@ async function LoadData() {
 	recommendations_switch.checked = Boolean(options.recommendations_checked);
 	comments_switch.checked = Boolean(options.comments_checked);
 	main_switch.checked = Boolean(options.main_checked);
+	chrome.storage.sync.set({ options });
 }
 
 LoadData();
