@@ -25,8 +25,11 @@ let options: SwitchedChecked = {
 	main_checked: main_switch.checked,
 };
 
+chrome.storage.sync.set({ options });
+
 async function LoadData() {
 	const data = await chrome.storage.sync.get("options");
+	console.log(data);
 	Object.assign(options, data.options);
 	shorts_switch.checked = Boolean(options.shorts_checked);
 	recommendations_switch.checked = Boolean(options.recommendations_checked);
