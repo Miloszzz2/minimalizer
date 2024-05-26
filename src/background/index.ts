@@ -25,13 +25,13 @@ async function init() {
 				) as HTMLCollectionOf<HTMLElement>;
 				const richGridRenderer = document.querySelectorAll(
 					"#contents.ytd-rich-grid-renderer",
-				)[0] as HTMLElement;
+				) as NodeListOf<HTMLElement>;
 				if (
 					shortsEl ||
 					recommendationsEl ||
 					commentsEl ||
 					richShortsRenderer[0] ||
-					richGridRenderer
+					richGridRenderer[0]
 				) {
 					if (data.options) VisibilityChange(data.options);
 
@@ -73,9 +73,11 @@ function VisibilityChange(changes: SwitchedChecked) {
 	const commentsEl = document.getElementsByTagName(
 		"ytd-comments",
 	)[0] as HTMLElement;
+
 	const main_page_recommends = document.querySelectorAll(
 		"#contents.ytd-rich-grid-renderer",
-	)[0] as HTMLElement;
+	) as NodeListOf<HTMLElement>;
+
 	if (recommendationsEl) {
 		if (Boolean(changes.recommendations_checked) === false) {
 			recommendationsEl.style.display = "none";
@@ -103,11 +105,15 @@ function VisibilityChange(changes: SwitchedChecked) {
 			commentsEl.style.display = "flex";
 		}
 	}
-	if (main_page_recommends) {
+	if (main_page_recommends.length > 0) {
 		if (Boolean(changes.main_checked) === false) {
-			main_page_recommends.style.display = "none";
+			for (const main_obj of main_page_recommends) {
+				main_obj.style.display = "none";
+			}
 		} else {
-			main_page_recommends.style.display = "flex";
+			for (const main_obj of main_page_recommends) {
+				main_obj.style.display = "flex";
+			}
 		}
 	}
 }
