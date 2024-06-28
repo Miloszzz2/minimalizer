@@ -35,7 +35,7 @@ async function init() {
 				) {
 					if (data.options) VisibilityChange(data.options);
 
-					if (data.options.shorts_checked === true) {
+					if (data.options && data.options.shorts_checked === true) {
 						console.log("stopped1");
 						observer.disconnect();
 						return;
